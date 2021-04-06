@@ -17,7 +17,7 @@ function main() {
         if ($DO_ANTICHEAT) {
             $output = [];
             exec('deno run simulator.ts ' . escapeshellarg($validate), $output, $return_var);
-            // exec('/home/admin/.deno/bin/deno run simulator.ts ' . $validate, $output, $return_var); // for some reason i get `deno not found` without this
+            // exec('/home/admin/.deno/bin/deno run simulator.ts ' . escapeshellarg($validate), $output, $return_var); // for some reason i get `deno not found` without this
             if ($return_var === 0) {
                 $rng = $output[0];
                 $simScore = $output[1];
