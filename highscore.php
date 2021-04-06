@@ -1,4 +1,9 @@
 <?php 
+// if started from the command line, wrap parameters to $_POST
+if (!isset($_SERVER["HTTP_HOST"])) {
+    parse_str($argv[1], $_POST);
+}
+
 print_r(main());
 
 function main() {
@@ -11,7 +16,8 @@ function main() {
     if (base64_encode(base64_decode($validate, true)) === $validate) {
         if ($DO_ANTICHEAT) {
             $output = [];
-            exec('deno run simulator.ts ' . escapeshellarg($validate), $output, $return_var);
+            exec('deno run simulator.ts ' . $validate, $output, $return_var); // wrapping in "" fucks up the script somehow i think
+            // exec('/home/admin/.deno/bin/deno run simulator.ts ' . $validate, $output, $return_var); // for some reason i get `deno not found` without this
             if ($return_var === 0) {
                 $rng = $output[0];
                 $simScore = $output[1];
